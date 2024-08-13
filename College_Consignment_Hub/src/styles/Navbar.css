@@ -1,0 +1,69 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: violet !important; /* Indigo */
+  color: white;
+}
+
+  
+  .navbar .brand {
+    font-size: 1.5rem;
+    color: #1E90FF; /* DodgerBlue */
+    text-decoration: none;
+  }
+  
+  .navbar .search-bar {
+    flex: 1;
+    margin: 0 1rem;
+    
+  }
+  
+  .navbar .search-bar input {
+    width: 50%;
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  
+  .navbar .cart {
+    position: relative;
+  }
+  
+  .navbar .cart .btn-cart {
+    background-color: #1E90FF;
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .navbar .cart .badge {
+    position: absolute;
+    top: -0.5rem;
+    right: -0.5rem;
+    background-color: #FF4500; /* OrangeRed */
+    color: white;
+    border-radius: 50%;
+    padding: 0.2rem 0.5rem;
+    font-size: 0.8rem;
+  }
+  
+  .navbar .filter-menu {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .navbar .filter-menu button {
+    background-color: #1E90FF;
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+
+  

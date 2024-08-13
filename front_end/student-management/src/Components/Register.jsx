@@ -74,8 +74,9 @@ const Register = () => {
             return;
         }
         try {
+            {/* Here instead of user and other put student : user password : pwd*/}
             const response = await axios.post(REGISTER_URL,
-                JSON.stringify({ user, email, pwd, address }),
+                JSON.stringify({ user , email, pwd, address }),
                 {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true
@@ -89,13 +90,14 @@ const Register = () => {
             setMatchPwd('');
             setAddress('');
         } catch (err) {
-            if (!err?.response) {
-                setErrMsg('No Server Response');
-            } else if (err.response?.status === 409) {
-                setErrMsg('Username or Email Taken');
-            } else {
-                setErrMsg('Registration Failed')
-            }
+            // if (!err?.response) {
+            //     setErrMsg('No Server Response');
+            // } else if (err.response?.status === 409) {
+            //     setErrMsg('Username or Email Taken');
+            // } else {
+            //     setErrMsg('Registration Failed')
+            // }
+            setErrMsg('Registration Failed');
             errRef.current.focus();
         }
     }
