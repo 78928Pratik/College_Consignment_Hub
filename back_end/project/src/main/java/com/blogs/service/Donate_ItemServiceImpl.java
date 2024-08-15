@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.blogs.custom_exceptions.Donate_ItemNotFoundException;
+import com.blogs.custom_exceptions.RatingNotFoundException;
 import com.blogs.dto.Donate_ItemDTO;
 import com.blogs.dto.RatingDTO;
 import com.blogs.entities.Donate_Item;
@@ -57,11 +58,16 @@ public class Donate_ItemServiceImpl implements Donate_ItemService
     }
 
     @Override
-    public Donate_ItemDTO getDonationById(Long id) {
+    public Donate_ItemDTO getDonationById(Long id) 
+    {
         Donate_Item donateItem = donateItemRepository.findById(id)
                 .orElseThrow(() -> new Donate_ItemNotFoundException("Donation with ID " + id + " not found"));
-        return modelMapper.map(donateItem, Donate_ItemDTO.class);
+        Donate_ItemDTO donate_ItemDTO= modelMapper.map(donateItem, Donate_ItemDTO.class);
+        donate_ItemDTO.setItem_id(donateItem.getItem().getItem_id());
+        donate_ItemDTO.setDonor_id(donateItem.getStudent().getStudent_id());
+        return donate_ItemDTO;
     }
+    
 
     @Override
     public List<Donate_ItemDTO> getAllDonations() {

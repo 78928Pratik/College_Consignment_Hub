@@ -38,11 +38,6 @@ public class Cart
 	@OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Item> item = new ArrayList<>();
 	
-	
-	
-	
-	
-	// student 1---->1 cart  -uni dir one to one asso between entities
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "seller_id")
 	private Student student;

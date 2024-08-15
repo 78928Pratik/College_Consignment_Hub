@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.blogs.custom_exceptions.ItemNotFoundException;
 import com.blogs.custom_exceptions.WatchlistNotFoundException;
 import com.blogs.dto.ApiResponse;
+import com.blogs.dto.ItemDTO;
 import com.blogs.dto.WatchlistDTO;
 import com.blogs.entities.Watchlist;
 import com.blogs.repository.StudentRepository;
@@ -47,14 +49,22 @@ public class WatchlistController
 	    }
 	 
 	 @GetMapping("/{id}")
-	    public ResponseEntity<ApiResponse> getWatchlistById(@PathVariable Long id) {
-	        try {
-	            WatchlistDTO watchlist = watchlistService.getWatchlistById(id);
-	            return ResponseEntity.ok(new ApiResponse("Watchlist details retrieved successfully"));
-	        } catch (WatchlistNotFoundException e) {
-	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage()));
-	        }
-	    }
+	    public ResponseEntity<WatchlistDTO> getWatchlistById(@PathVariable Long id) 
+	 {
+	       
+	            WatchlistDTO watchlistDTO = watchlistService.getWatchlistById(id);
+	            if(watchlistDTO!=null && watchlistDTO.getWatchlist_id()!=null)
+	            {
+	            	return ResponseEntity.ok(watchlistDTO);
+	            }
+	            else
+	            {
+	            	throw new WatchlistNotFoundException("watchlist is not found!!!");
+	            }
+	            	
+	            
+	  }
+	 
 	 @PutMapping("/updatewatchlist/{id}")
 	    public ResponseEntity<ApiResponse> updateWatchlist(@PathVariable Long id, @RequestBody WatchlistDTO watchlistDTO) {
 	        try {

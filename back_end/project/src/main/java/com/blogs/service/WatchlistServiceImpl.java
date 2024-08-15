@@ -1,6 +1,7 @@
 package com.blogs.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -8,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.blogs.custom_exceptions.ItemNotFoundException;
 import com.blogs.custom_exceptions.WatchlistNotFoundException;
+import com.blogs.dto.ItemDTO;
 import com.blogs.dto.RatingDTO;
 import com.blogs.dto.WatchlistDTO;
 import com.blogs.entities.Item;
@@ -48,18 +51,12 @@ public class WatchlistServiceImpl implements WatchlistService
 	
 	public WatchlistDTO getWatchlistById(Long id) 
 	{
-		 Watchlist watchlist = watchlistRepository.findById(id)
-		            .orElseThrow(() -> new WatchlistNotFoundException("Watchlist with ID " + id + " not found"));
-		        
-		        // Map the Watchlist entity to WatchlistDTO
-		 WatchlistDTO watchlistDTO = modelMapper.map(watchlist, WatchlistDTO.class);
-		 watchlistDTO.setBuyer_id(watchlist.getStudent().getStudent_id());  // Map student_id to buyer_id
-		 return watchlistDTO;
-		 
-		 
-        //return watchlistRepository.findById(id)
-           // .orElseThrow(() -> new WatchlistNotFoundException("Watchlist ID not found"));
-    }
+		Watchlist watchlist=watchlistRepository.findById(id)
+				.orElseThrow(()->new WatchlistNotFoundException("watchlist id not found"));
+		WatchlistDTO watchlistDTO=modelMapper.map(watchlist, WatchlistDTO.class);
+		watchlistDTO.setBuyer_id(watchlist.getStudent().getStudent_id());
+		return watchlistDTO;
+	}
 	public List<WatchlistDTO> getAllWatchlists() 
 	{
 	        
@@ -85,7 +82,7 @@ public class WatchlistServiceImpl implements WatchlistService
             .orElseThrow(() -> new WatchlistNotFoundException("Watchlist ID not found"));
 
         // Update fields
-        watchlist.setDateAdded(watchlistDTO.getDateAdded());
+       
         
 
         // Save updated watchlist

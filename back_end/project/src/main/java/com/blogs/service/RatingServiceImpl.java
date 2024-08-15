@@ -49,7 +49,8 @@ public class RatingServiceImpl implements RatingService
     }
 
     @Override
-    public RatingDTO getRatingById(Long id) {
+    public RatingDTO getRatingById(Long id) 
+    {
         Rating rating = ratingRepository.findById(id)
             .orElseThrow(() -> new RatingNotFoundException("Rating with ID " + id + " not found"));
 

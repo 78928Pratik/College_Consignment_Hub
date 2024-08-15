@@ -11,7 +11,7 @@ public interface StudentService
 	void addStudent(StudentDTO studentDTO);
 	
 	//get student details by id
-    Student getStudentById(Long id);
+    StudentDTO getStudentById(Long id);
     
     //get all student details
     List<StudentDTO> getAllStudents();
@@ -21,5 +21,7 @@ public interface StudentService
     
     //delete student detail by id
     void deleteStudent(Long id);
+    
+    StudentDTO loginStudent( String email,String password);
 
 }

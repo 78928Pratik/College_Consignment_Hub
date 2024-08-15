@@ -15,7 +15,7 @@ import lombok.Setter;
 public class WatchlistDTO 
 {
 	private Long watchlist_id;
-	private LocalDate dateAdded; 
+//	private LocalDate dateAdded; 
 	private Long buyer_id;
 	
 

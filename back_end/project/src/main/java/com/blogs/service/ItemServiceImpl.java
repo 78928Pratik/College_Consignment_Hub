@@ -1,6 +1,7 @@
 package com.blogs.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -9,9 +10,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.blogs.custom_exceptions.ItemNotFoundException;
+import com.blogs.custom_exceptions.StudentNotFoundException;
 import com.blogs.custom_exceptions.WatchlistNotFoundException;
 import com.blogs.dto.ItemDTO;
 import com.blogs.dto.RatingDTO;
+import com.blogs.dto.StudentDTO;
+import com.blogs.dto.WatchlistDTO;
 import com.blogs.entities.Cart;
 import com.blogs.entities.Category;
 import com.blogs.entities.Donate_Item;
@@ -77,25 +81,69 @@ public class ItemServiceImpl implements ItemService
     @Override
     public ItemDTO getItemById(Long id) {
         Item item = itemRepository.findById(id)
-            .orElseThrow(() -> new ItemNotFoundException("Item with ID " + id + " not found"));
-        return modelMapper.map(item, ItemDTO.class);
+                .orElseThrow(() -> new ItemNotFoundException("Item id not found: " + id));
+        
+        ItemDTO itemDTO = modelMapper.map(item, ItemDTO.class);
+        
+        // Check if related entities are not null before accessing their properties
+        if (item.getCart() != null) {
+            itemDTO.setCart_id(item.getCart().getCart_id());
+        }
+        
+        if (item.getCategory() != null) {
+            itemDTO.setCategory_id(item.getCategory().getCategory_id());
+        }
+        
+        if (item.getStudent() != null) {
+            itemDTO.setSeller_id(item.getStudent().getStudent_id());
+        }
+        
+        if (item.getWatchlist() != null) {
+            itemDTO.setWatchlist_id(item.getWatchlist().getWatchlist_id());
+        }
+        
+        return itemDTO;
     }
 
     @Override
-    public List<ItemDTO> getAllItems() {
-        List<Item> items = itemRepository.findAll();
-        return items.stream()
-            .map(item ->{
-            	ItemDTO itemDTO=modelMapper.map(item, ItemDTO.class);
-            	itemDTO.setCart_id(item.getCart().getCart_id());
-            	itemDTO.setCategory_id(item.getCategory().getCategory_id());
-            	itemDTO.setSeller_id(item.getStudent().getStudent_id());
-            	itemDTO.setWatchlist_id(item.getWatchlist().getWatchlist_id());
-            	return itemDTO;
-            })
-            .collect(Collectors.toList());
-       
+    public List<ItemDTO> getAllItems() 
+    {
+    List<Item> items = itemRepository.findAll();
+    
+    return items.stream()
+        .map(item -> {
+            ItemDTO itemDTO = modelMapper.map(item, ItemDTO.class);
+            
+            // Safe null checks before accessing properties
+            if (item.getCart() != null) {
+                itemDTO.setCart_id(item.getCart().getCart_id());
+            } else {
+                itemDTO.setCart_id(null); // or a default value
+            }
+            
+            if (item.getCategory() != null) {
+                itemDTO.setCategory_id(item.getCategory().getCategory_id());
+            } else {
+                itemDTO.setCategory_id(null); // or a default value
+            }
+            
+            if (item.getStudent() != null) {
+                itemDTO.setSeller_id(item.getStudent().getStudent_id());
+            } else {
+                itemDTO.setSeller_id(null); // or a default value
+            }
+            
+            if (item.getWatchlist() != null) {
+                itemDTO.setWatchlist_id(item.getWatchlist().getWatchlist_id());
+            } else {
+                itemDTO.setWatchlist_id(null); // or a default value
+            }
+            
+            return itemDTO;
+        })
+        .collect(Collectors.toList());
     }
+
 
     @Override
     public void updateItem(Long id, ItemDTO itemDTO) {

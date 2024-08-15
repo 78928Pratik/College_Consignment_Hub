@@ -1,0 +1,121 @@
+.navbar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  background-color: violet !important; /* Indigo */
+  color: white;
+}
+
+.navbar .navbar-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px; /* Optional, for centering content */
+  margin-bottom: 1rem;
+}
+
+.navbar .brand {
+  font-size: 1.5rem;
+  color: #1E90FF; /* DodgerBlue */
+  text-decoration: none;
+}
+
+.navbar .search-bar {
+  display: flex;
+  align-items: center; /* Ensure items are aligned on the same axis */
+  flex: 1;
+  margin: 0 1rem;
+}
+
+.navbar .search-bar input {
+  flex: 1;
+  padding: 0.5rem;
+  border-radius: 4px 0 0 4px;
+  border: 1px solid #ccc;
+  border-right: none;
+  box-sizing: border-box; /* Ensure padding is included in width */
+}
+
+.navbar .search-bar button {
+  padding: 0.5rem;
+  background-color: #1E90FF;
+  color: white;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  font-size: 0.8rem;
+  width: 80px; /* Fixed width for the button */
+  height: 100%; /* Make button height match the input field */
+}
+
+.navbar .cart {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.navbar .cart .btn-cart {
+  background-color: #1E90FF;
+  border: none;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.navbar .cart .badge {
+  position: absolute;
+  top: -0.5rem;
+  right: -0.5rem;
+  background-color: #FF4500; /* OrangeRed */
+  color: white;
+  border-radius: 50%;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.8rem;
+}
+
+.navbar .filter-menu {
+  display: flex;
+  flex-direction: row; /* Arrange buttons in a row */
+  flex-wrap: wrap; /* Allow wrapping if necessary */
+  justify-content: center; /* Center buttons horizontally */
+  gap: 0.5rem; /* Space between buttons */
+  width: 100%;
+  max-width: 1200px; /* Optional, for centering content */
+}
+
+.navbar .filter-menu button {
+  background-color: #1E90FF;
+  border: none;
+  color: white;
+  padding: 0.5rem 1rem; /* Adjust padding */
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem; /* Adjust font size */
+  max-width: 150px; /* Control maximum width of buttons */
+}
+
+.navbar .filter-menu button:hover {
+  background-color: #1873CC;
+}
+
+@media (max-width: 768px) {
+  .navbar .navbar-top {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .navbar .search-bar {
+    margin: 1rem 0;
+  }
+
+  .navbar .filter-menu {
+    flex-direction: column; /* Stack buttons vertically on small screens */
+    align-items: center;
+  }
+}

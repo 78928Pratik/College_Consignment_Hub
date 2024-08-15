@@ -15,8 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.blogs.custom_exceptions.ItemNotFoundException;
+import com.blogs.custom_exceptions.StudentNotFoundException;
 import com.blogs.dto.ApiResponse;
 import com.blogs.dto.ItemDTO;
+import com.blogs.dto.StudentDTO;
 import com.blogs.service.ItemService;
 
 @RestController
@@ -37,9 +40,17 @@ public class ItemController
 
 	    // Get an item by ID
 	    @GetMapping("/{id}")
-	    public ResponseEntity<ItemDTO> getItemById(@PathVariable Long id) {
+	    public ResponseEntity<ItemDTO> getItemById(@PathVariable Long id) 
+	    {
 	        ItemDTO itemDTO = itemService.getItemById(id);
-	        return ResponseEntity.ok(itemDTO);
+	        if(itemDTO!=null && itemDTO.getItem_id()!=null)
+	        {
+	        	return ResponseEntity.ok(itemDTO);
+	        }
+	        else
+	        {
+	        	throw new ItemNotFoundException("item not found");
+	        }
 	    }
 
 	    // Get all items

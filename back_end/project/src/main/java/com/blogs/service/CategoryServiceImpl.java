@@ -1,13 +1,18 @@
 package com.blogs.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.blogs.custom_exceptions.CategoryNotFoundException;
+import com.blogs.custom_exceptions.StudentNotFoundException;
+import com.blogs.dto.CategoryDTO;
+import com.blogs.dto.StudentDTO;
 import com.blogs.entities.Category;
+import com.blogs.entities.Student;
 import com.blogs.repository.CategoryRepository;
 
 @Service
@@ -18,14 +23,25 @@ public class CategoryServiceImpl implements CategoryService
 	    private CategoryRepository categoryRepository;
 
 	    @Override
-	    public void addCategory(Category category) {
+	    public void addCategory(Category category) 
+	    {
 	        categoryRepository.save(category);
 	    }
 
 	    @Override
-	    public Category getCategoryById(Long id) {
-	        return categoryRepository.findById(id)
-	            .orElseThrow(() -> new CategoryNotFoundException("Category with ID " + id + " not found"));
+	    public Category getCategoryById(Long id) 
+	    {
+	    	Optional<Category> category=categoryRepository.findById(id);
+	    	if(category.isPresent())
+	    	{
+	    		return category.get();
+	    	}
+	    	else
+	    	{
+	    		throw new CategoryNotFoundException("category is not found!!!");
+	    	}
+			
+	       
 	    }
 
 	    @Override
