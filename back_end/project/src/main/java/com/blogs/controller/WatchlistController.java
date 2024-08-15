@@ -6,6 +6,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +24,7 @@ import com.blogs.dto.WatchlistDTO;
 import com.blogs.entities.Watchlist;
 import com.blogs.repository.StudentRepository;
 import com.blogs.service.WatchlistService;
-
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 @RestController
 @RequestMapping("/watchlist")
 public class WatchlistController 
@@ -85,6 +86,12 @@ public class WatchlistController
 	        }
 	    }
 	 
+	    @GetMapping("/student/{id}")
+	    
+	    public ResponseEntity<Long> getStudentID(@PathVariable Long id) {
+	        Long watchId = watchlistService.getWatchlistByStudentId(id);
+	        return ResponseEntity.ok(watchId);
+	    }
 	 
 
 

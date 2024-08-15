@@ -18,7 +18,7 @@ public class ItemDTO
 	private String title;
 	private String description;
 	private double price;
-	private byte[] image;
+	private String image;
 	private String item_duration;
 	private Status status;
 	private Long seller_id;

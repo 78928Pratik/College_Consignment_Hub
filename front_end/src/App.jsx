@@ -8,6 +8,7 @@ import SearchItem from './components/SearchItem';
 import Login from './components/Login';
 import Register from './components/Register';
 import { items } from './components/Data';
+import AddItem from "./components/AddItem"
 import { ToastContainer, toast } from "react-toastify";
 
 const App = () => {
@@ -27,6 +28,7 @@ const App = () => {
         <Route path="/product/:id" element={<ProductDetail cart={cart} setCart={setCart} />} />
         <Route path="/search/:term" element={<SearchItem cart={cart} setCart={setCart} />} />
         <Route path="/cart" element={<Cart cart={cart} setCart={setCart} />} />
+        <Route path="/sellitem" element={<AddItem/>}/>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>

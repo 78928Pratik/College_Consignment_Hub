@@ -49,9 +49,8 @@ public class Item
 	@NotNull(message="price can not be null")
 	private double price;
 	
-	// add a property to store the bin contents in DB
-	@Lob //large object
-	private byte[] image;
+
+	private String image;
 	
 	//item duration field means the item used till we have to sell it
 	@NotNull(message="item duration can not be null")

@@ -91,4 +91,13 @@ public class CartServiceImpl implements CartService
         }
     }
 
+    @Override
+    public Long getCartByStudentID(Long studentId) {
+        Cart cart = cartRepository.findByStudentId(studentId);
+        if (cart == null) {
+            throw new CartNotFoundException("Cart not found for Student ID " + studentId);
+        }
+        return cart.getCart_id();  // Returning the Cart ID
+    }
+
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,8 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.blogs.dto.ApiResponse;
 import com.blogs.entities.Category;
+import com.blogs.entities.Student;
 import com.blogs.service.CategoryService;
-
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 @RestController
 @RequestMapping("/category")
 public class CategoryController 
@@ -54,5 +56,6 @@ public class CategoryController
 	        categoryService.deleteCategory(id);
 	        return new ResponseEntity<>(new ApiResponse("Category deleted successfully!"), HttpStatus.OK);
 	    }
+	    
 
 }

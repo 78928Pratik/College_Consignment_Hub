@@ -21,6 +21,7 @@ import com.blogs.entities.Category;
 import com.blogs.entities.Donate_Item;
 import com.blogs.entities.Item;
 import com.blogs.entities.Rating;
+import com.blogs.entities.Status;
 import com.blogs.entities.Student;
 import com.blogs.entities.Watchlist;
 import com.blogs.repository.CartRepository;
@@ -72,6 +73,7 @@ public class ItemServiceImpl implements ItemService
         
         item.setStudent(student);
         item.setCart(cart);
+        item.setStatus(Status.AVAILABLE);
         item.setCategory(category);
         item.setWatchlist(watchlist);
 

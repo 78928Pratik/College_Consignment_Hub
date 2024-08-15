@@ -46,7 +46,7 @@ const Navbar = ({ setData, cart }) => {
             <span className="badge">{cart.length}</span>
           </button>
         </Link>
-        <Link to="/home" className=""><button>Sell Item</button></Link> &nbsp; &nbsp;
+        <Link to="/sellitem" className=""><button>Sell Item</button></Link> &nbsp; &nbsp;
         <Link to="/home" className=""><button>Profile</button></Link>
 
       </div>

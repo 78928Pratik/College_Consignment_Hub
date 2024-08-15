@@ -22,4 +22,8 @@ public interface WatchlistService
 	    // Delete a watchlist by ID
 	    void deleteWatchlist(Long id);
 
+
+
+		Long getWatchlistByStudentId(Long id);
+
 }

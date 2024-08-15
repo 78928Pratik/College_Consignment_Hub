@@ -20,5 +20,7 @@ public interface CartService
 
     // Delete a cart by ID
     void deleteCart(Long id);
+    
+    Long getCartByStudentID(Long id);
 
 }

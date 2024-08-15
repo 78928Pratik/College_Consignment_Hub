@@ -9,11 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.blogs.custom_exceptions.CartNotFoundException;
 import com.blogs.custom_exceptions.ItemNotFoundException;
 import com.blogs.custom_exceptions.WatchlistNotFoundException;
 import com.blogs.dto.ItemDTO;
 import com.blogs.dto.RatingDTO;
 import com.blogs.dto.WatchlistDTO;
+import com.blogs.entities.Cart;
 import com.blogs.entities.Item;
 import com.blogs.entities.Rating;
 import com.blogs.entities.Watchlist;
@@ -108,5 +110,14 @@ public class WatchlistServiceImpl implements WatchlistService
 //
 //	    // Now delete the watchlist
 //	    watchlistRepository.delete(watchlist);
+	}
+
+	@Override
+	public Long getWatchlistByStudentId(Long id) {
+		  Watchlist watchList= watchlistRepository.findByStudentId(id);
+	        if (watchList == null) {
+	            throw new WatchlistNotFoundException("WatchLIst not found for Student ID " + id);
+	        }
+	        return watchList.getWatchlist_id();
 	}
 }
