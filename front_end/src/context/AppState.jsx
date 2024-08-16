@@ -1,185 +1,134 @@
-import React, { useState, useEffect } from "react";
-import AppContext from "./AppContext";
-import axios from "../api/axios";
-import { ToastContainer, toast, Bounce } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-//later i will segricate it aniket
-const AppState = (props) => {
-  const [products, setProducts] = useState([]); // for array of products
-  const [user, setUser] = useState({}); // for single user
-  // const [isAuthenticate, setIsAuthenticate] = useState(false); // he bagu nantar aniket
-  const [cart, setCart] = useState([]); // for cart state aniket
-  const [watchlist, setWatchList] = useState([]); // watchList
-  const [filteredData, setfilteredData] = useState([]); // fileted data
+import React, { useState, useEffect } from 'react';
+import AppContext from './AppContext';
+import axios from '../api/axios';
 
-  //otp generator
-
-  // const [userOrder, setUserOrder] = useState([]);
-  // const [allOrder, setAllOrder] = useState([]);
-  // const [reload, setReload] = useState(false);
-  // const [loading, setloading] = useState(true);
-  // const [allUsers, setAllUsers] = useState([]);
+const AppProvider = (props) => {
+  const [products, setProducts] = useState([]);
+  const [cart, setCart] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [student, setStudent] = useState(null); // Default to null
 
   useEffect(() => {
-    const fetchAllProduct = async () => {
-      const api = await axios.get("/item", {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      });
-
-      console.log(api.data);
-      setProducts(api.data);
-      setfilteredData(api.data);
-      // setloading(false);
+    const fetchStudentData = () => {
+      const studentFromLocalStorage = JSON.parse(localStorage.getItem('student'));
+      if (studentFromLocalStorage) {
+        setStudent(studentFromLocalStorage);
+      }
     };
-    fetchAllProduct();
-    fetchCart();
-    profile();
-  
+    fetchStudentData();
   }, []);
 
-  
-  const studentLogin = async () => {
-    try {
-      //    const response = await axios.post("/login", 
-      //           JSON.stringify({ email: email, password: password }), // Correct field name here
-      //           {
-      //               headers: { 'Content-Type': 'application/json' },
-      //               withCredentials: true
-      //           }
-      //       );
-     
-      // const studentData = response.data;
-      // localStorage.setItem("student", JSON.stringify(studentData)); // Save StudentDTO to local storage
+  useEffect(() => {
+    if (!student) return; // Exit early if student is not available
 
-      const studentSTRING = localStorage.getItem("student");
-const studentData=JSON.parse(studentSTRING);
-      setUser(studentData);
-   
-
-  const profile = async () => {
-    const api = await axios.get(`/students/:id`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      withCredentials: true,
-    });
-
-    console.log("User Profile", api.data);
-    setUser(api.data);
-  };
-
-  // const addProduct = async (
-  //   title,
-  //   description,
-  //   price,
-  //   image,
-  //   item_duration,
-  //   status,
-  //   seller_id,
-  //   cart_id,
-  //   category_id,
-  //   watchlist_id
-  // ) => {
-  //   const api = await axios.post(
-  //     `${url}/item`,
-  //     {
-  //       title,
-  //       description,
-  //       price,
-  //       image,
-  //       item_duration,
-  //       status,
-  //       seller_id,
-  //       cart_id,
-  //       category_id,
-  //       watchlist_id,
-  //     },
-  //     { headers: { "Content-Type": "application/json" }, withCredentials: true }
-  //   );
- 
-  //   toast.success(api.data.message, {
-  //     position: "top-right",
-  //     autoClose: 1500,
-  //     hideProgressBar: false,
-  //     closeOnClick: true,
-  //     pauseOnHover: true,
-  //     draggable: true,
-  //     progress: undefined,
-  //     theme: "dark",
-  //     transition: Bounce,
-  //   });
-  //   return api.data;
-  // };
-
-  // Update Item
-  const editProuduct = async (
-    id,
-    title,
-    description,
-    price,
-    image,
-    item_duration,
-    status,
-    seller_id,
-    cart_id,
-    category_id,
-    watchlist_id
-  ) => {
-    const api = await axios.put(
-      `${url}/item/${id}`,
-      {
-        title,
-        description,
-        price,
-        image,
-        item_duration,
-        status,
-        seller_id,
-        cart_id,
-        category_id,
-        watchlist_id,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
+    const fetchAllProducts = async () => {
+      try {
+        const response = await axios.get('/item', {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true,
+        });
+        setProducts(response.data);
+        setFilteredData(response.data);
+      } catch (error) {
+        console.error('Failed to fetch products', error);
       }
-    );
- 
-   
-    return api.data;
+    };
+
+    const fetchCart = async () => {
+      try {
+        const cartIdResponse = await axios.get(`/cart/student/${student.student_id}`, {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true,
+        });
+        const cartId = cartIdResponse.data.cart_id;
+
+        const response = await axios.get(`/item/cart/${cartId}`, {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true,
+        });
+        setCart(response.data);
+        localStorage.setItem('cart', JSON.stringify(response.data));
+      } catch (error) {
+        console.error('Failed to fetch cart', error);
+      }
+    };
+
+    fetchAllProducts();
+    fetchCart();
+  }, [student]);
+
+  const logout = () => {
+    localStorage.removeItem('student');
+    setStudent(null);
   };
 
-  // delete Product
-  const deleteProduct = async (id) => {
-    const api = await axios.delete(`${url}/item/${id}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Auth: token,
-      },
-      withCredentials: true,
-    });
-   
-    return api.data;
-  };
+  const addToCart = async (product) => {
+    if (!student) return; // Exit early if student is not available
 
-
-    } catch (error) {
-      toast.error("Login failed. Please check your credentials.", {
-        position: "top-right",
-        autoClose: 1500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-        transition: Bounce,
+    try {
+      const cartIdResponse = await axios.get(`/cart/student/${student.student_id}`, {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true,
       });
+      const cartId = cartIdResponse.data.cart_id;
+
+      await axios.post('/item', {
+        cart_id: cartId,
+        item_id: product.item_id,
+      }, {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true,
+      });
+
+      const response = await axios.get(`/item/cart/${cartId}`, {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true,
+      });
+      setCart(response.data);
+    } catch (error) {
+      console.error('Failed to add to cart', error);
     }
   };
+
+  const removeFromCart = async (id) => {
+    if (!student) return; // Exit early if student is not available
+
+    try {
+      await axios.delete(`/cart/${id}`, {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true,
+      });
+
+      const cartIdResponse = await axios.get(`/cart/student/${student.student_id}`, {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true,
+      });
+      const cartId = cartIdResponse.data.cart_id;
+
+      const response = await axios.get(`/item/cart/${cartId}`, {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true,
+      });
+      setCart(response.data);
+    } catch (error) {
+      console.error('Failed to remove from cart', error);
+    }
+  };
+
+  return (
+    <AppContext.Provider value={{
+      products,
+      cart,
+      addToCart,
+      removeFromCart,
+      filteredData,
+      setFilteredData,
+      student,
+      logout
+    }}>
+      {props.children}
+    </AppContext.Provider>
+  );
 };
+
+export default AppProvider;

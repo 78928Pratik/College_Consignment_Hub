@@ -25,5 +25,7 @@ public interface WatchlistService
 
 
 		Long getWatchlistByStudentId(Long id);
+		
+		
 
 }

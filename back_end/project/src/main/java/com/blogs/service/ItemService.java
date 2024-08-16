@@ -3,6 +3,7 @@ package com.blogs.service;
 import java.util.List;
 
 import com.blogs.dto.ItemDTO;
+import com.blogs.entities.Item;
 
 public interface ItemService 
 {
@@ -20,5 +21,9 @@ public interface ItemService
 
     // Delete an item by ID
     void deleteItem(Long id);
+    
 
+	List<Item> getItemsByWatchlistId(Long id);
+
+	List<Item> getItemsByCartId(Long cartId);
 }

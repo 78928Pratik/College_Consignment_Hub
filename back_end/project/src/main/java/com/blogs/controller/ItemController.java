@@ -17,10 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blogs.custom_exceptions.ItemNotFoundException;
-import com.blogs.custom_exceptions.StudentNotFoundException;
 import com.blogs.dto.ApiResponse;
 import com.blogs.dto.ItemDTO;
-import com.blogs.dto.StudentDTO;
+import com.blogs.entities.Item;
 import com.blogs.service.ItemService;
 @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 @RestController
@@ -78,5 +77,19 @@ public class ItemController
 	        response.setTimeStamp(LocalDateTime.now());
 	        return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
 	    }
+	    
+	    
+	    
+	    
+	    @GetMapping("/cart/{cartId}")
+	    public List<Item> getItemIdsByCartId(@PathVariable Long cartId) {
+	        return itemService.getItemsByCartId(cartId);
+	    }
+
+	    @GetMapping("/watchlist/{watchlistId}")
+	    public List<Item> getItemIdsByWatchlistId(@PathVariable Long watchlistId) {
+	        return itemService.getItemsByWatchlistId(watchlistId);
+	    }
+	  
 
 }

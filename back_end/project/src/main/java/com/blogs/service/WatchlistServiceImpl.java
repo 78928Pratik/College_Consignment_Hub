@@ -120,4 +120,6 @@ public class WatchlistServiceImpl implements WatchlistService
 	        }
 	        return watchList.getWatchlist_id();
 	}
+
+	
 }

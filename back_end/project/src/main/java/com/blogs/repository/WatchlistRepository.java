@@ -12,4 +12,8 @@ import com.blogs.entities.Watchlist;
 public interface WatchlistRepository extends JpaRepository<Watchlist, Long> {
 	@Query("SELECT w FROM Watchlist w WHERE w.student.student_id = :studentId")
     Watchlist findByStudentId(@Param("studentId") Long studentId);
+
+	
+	
+	
 }

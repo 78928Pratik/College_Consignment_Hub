@@ -103,22 +103,39 @@ public class StudentServiceImpl implements StudentService
 				.collect(Collectors.toList());
 	}
 
+	
 	@Override
-	public void updateStudent(StudentDTO studentDTO) 
-	{
-		if(!studentRepository.findById(studentDTO.getStudent_id()).isPresent())
-		{
-			throw new StudentNotFoundException("student is not present!!!!");
-		}
-		Student student = modelMapper.map(studentDTO, Student.class);
+	public void updateStudent(StudentDTO studentDTO) {
+	    try {
+	        Student existingStudent = studentRepository.findById(studentDTO.getStudent_id())
+	                .orElseThrow(() -> new StudentNotFoundException("Student not found"));
 
-		student.setStudent_name(studentDTO.getStudent_name());
-		student.setUsername(studentDTO.getUsername());
-		student.setEmail(studentDTO.getEmail());
-		student.setPassword(studentDTO.getPassword());
-		student.setAddress(studentDTO.getAddress());
-		studentRepository.save(student);
+	        // Update only the fields that are provided
+	        if (studentDTO.getStudent_name() != null) {
+	            existingStudent.setStudent_name(studentDTO.getStudent_name());
+	        }
+	        if (studentDTO.getUsername() != null) {
+	            existingStudent.setUsername(studentDTO.getUsername());
+	        }
+	        if (studentDTO.getEmail() != null) {
+	            existingStudent.setEmail(studentDTO.getEmail());
+	        }
+	        if (studentDTO.getAddress() != null) {
+	            existingStudent.setAddress(studentDTO.getAddress());
+	        }
+	        if (studentDTO.getPassword() != null && !studentDTO.getPassword().isEmpty()) {
+	            existingStudent.setPassword(passwordEncoder.encode(studentDTO.getPassword()));
+	        }
+
+	        studentRepository.save(existingStudent);
+	    } catch (Exception e) {
+	        // Log the exception
+	        e.printStackTrace(); // or use a logging framework
+	        throw new RuntimeException("Error updating student", e);
+	    }
 	}
+
+
 
 	@Override
 	public void deleteStudent(Long id) 

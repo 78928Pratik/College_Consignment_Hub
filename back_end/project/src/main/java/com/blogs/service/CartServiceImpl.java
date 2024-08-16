@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.blogs.custom_exceptions.CartNotFoundException;
+import com.blogs.custom_exceptions.WatchlistNotFoundException;
 import com.blogs.dto.CartDTO;
 import com.blogs.entities.Cart;
+import com.blogs.entities.Watchlist;
 import com.blogs.repository.CartRepository;
 import com.blogs.repository.StudentRepository;
 
@@ -99,5 +101,8 @@ public class CartServiceImpl implements CartService
         }
         return cart.getCart_id();  // Returning the Cart ID
     }
+
+	
+	
 
 }

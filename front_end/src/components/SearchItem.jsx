@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import { items } from './Data';
+import AppContext from '../context/AppContext'; // Import AppContext
 import Product from './Product';
 import '../styles/SearchItem.css';
 
-const SearchItem = ({ cart, setCart }) => { // ithe context api use karel
-
-  
+const SearchItem = ({ cart, setCart }) => {
   const { term } = useParams();
   const [filterData, setFilterData] = useState([]);
+  const { products } = useContext(AppContext); // Get products from context
 
   useEffect(() => {
     const filteredData = () => {
-      const data = items.filter((p) =>
+      // Filter products based on the search term
+      const data = products.filter((p) =>
         p.title.toLowerCase().includes(term.toLowerCase())
       );
       setFilterData(data);
     };
 
     filteredData();
-  }, [term]);
+  }, [term, products]); // Add products to dependency array
 
   return (
     <div className="search-results">

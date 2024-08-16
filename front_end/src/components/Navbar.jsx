@@ -1,35 +1,57 @@
-import React, { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { items } from './Data';
-import { BsFillCartCheckFill } from 'react-icons/bs';
-import '../styles/Navbar.css';
+import React, { useState, useContext, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import AppContext from "../context/AppContext"; // Import AppContext
+import axios from "axios";
+import { BsFillCartCheckFill } from "react-icons/bs";
+import "../styles/Navbar.css";
 
 const Navbar = ({ setData, cart }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
+  const { products } = useContext(AppContext); // Get products from context
+  const [categories, setCategories] = useState([]);
 
-  const filterByCategory = (category) => {
-    const filteredItems = items.filter((product) => product.category === category);
-    setData(filteredItems);
-  };
+  // Fetch categories on component mount
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/category");
+        setCategories(response.data);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
 
-  const filterByPrice = (price) => {
-    const filteredItems = items.filter((product) => product.price >= price);
+    fetchCategories();
+  }, []);
+
+  const filterByCategory = (categoryId) => {
+    const filteredItems = products.filter(
+      (product) => product.category_id === categoryId
+    );
     setData(filteredItems);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     navigate(`/search/${searchTerm}`);
-    setSearchTerm('');
+    setSearchTerm("");
+  };
+
+  const handleLogout = () => {
+    // Implement logout logic here, e.g., clearing authentication tokens or redirecting
+    localStorage.removeItem("student");
+    navigate("/"); // Redirect to login page after logout
   };
 
   return (
     <nav className="navbar">
       <div className="navbar-top">
-        <Link to="/home" className="brand">CCHub Logo</Link>
-        
+        <Link to="/home" className="brand">
+          CCHub Logo
+        </Link>
+
         <form className="search-bar" onSubmit={handleSubmit}>
           <input
             value={searchTerm}
@@ -37,30 +59,36 @@ const Navbar = ({ setData, cart }) => {
             type="text"
             placeholder="Search Products"
           />
-          <button type="submit">Search</button>
         </form>
-        
+
         <Link to="/cart" className="cart">
           <button className="btn-cart">
             <BsFillCartCheckFill />
             <span className="badge">{cart.length}</span>
           </button>
         </Link>
-        <Link to="/sellitem" className=""><button>Sell Item</button></Link> &nbsp; &nbsp;
-        <Link to="/home" className=""><button>Profile</button></Link>
-
+        <Link to="/sellitem">
+          <button className="btn-sell-item">Sell Item</button>
+        </Link>
+        <Link to="/profile">
+          <button className="btn-user-profile">User Profile</button>
+        </Link>
+        <button className="btn-logout" onClick={handleLogout}>
+          Logout
+        </button>
       </div>
 
-      {location.pathname === '/home' && (
+      {location.pathname === "/home" && (
         <div className="filter-menu">
-          <button onClick={() => setData(items)}>No Filter</button>
-          <button onClick={() => filterByCategory('mobiles')}>Mobiles</button>
-          <button onClick={() => filterByCategory('laptops')}>Laptops</button>
-          <button onClick={() => filterByCategory('tablets')}>Tablets</button>
-          <button onClick={() => filterByCategory('chair')}>Chair</button>
-          <button onClick={() => filterByPrice(29999)}>{">="}29999</button>
-          <button onClick={() => filterByPrice(49999)}>{">="}49999</button>
-          
+          <button onClick={() => setData(products)}>No Filter</button>
+          {categories.map((category) => (
+            <button
+              key={category.category_id}
+              onClick={() => filterByCategory(category.category_id)}
+            >
+              {category.category_name}
+            </button>
+          ))}
         </div>
       )}
     </nav>

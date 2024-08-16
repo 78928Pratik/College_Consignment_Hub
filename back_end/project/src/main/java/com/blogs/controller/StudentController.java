@@ -39,16 +39,33 @@ public class StudentController {
 		studentService.addStudent(studentDTO);
 		return new ResponseEntity<ApiResponse>(new ApiResponse("student added sucessfully!!!"), HttpStatus.CREATED);
 	}
-
-	@SuppressWarnings("unlikely-arg-type")
 	@PutMapping("/updatestudent/{id}")
 	public ResponseEntity<ApiResponse> updateStudent(@PathVariable Long id, @RequestBody StudentDTO studentDTO) {
-		if (studentService.getStudentById(id).equals(studentDTO.getStudent_id())) {
-			return new ResponseEntity<ApiResponse>(new ApiResponse("Id Not Found"), HttpStatus.NOT_FOUND);
-		}
-		studentService.updateStudent(studentDTO);
-		return new ResponseEntity<ApiResponse>(new ApiResponse("Student has been Updated"), HttpStatus.OK);
+	    if (id == null) {
+	        return new ResponseEntity<>(new ApiResponse("ID cannot be null"), HttpStatus.BAD_REQUEST);
+	    }
+
+	    if (studentDTO == null || studentDTO.getStudent_id() == null) {
+	        return new ResponseEntity<>(new ApiResponse("StudentDTO or ID cannot be null"), HttpStatus.BAD_REQUEST);
+	    }
+
+	    if (!studentDTO.getStudent_id().equals(id)) {
+	        return new ResponseEntity<>(new ApiResponse("ID mismatch"), HttpStatus.BAD_REQUEST);
+	    }
+
+	    try {
+	        studentService.updateStudent(studentDTO);
+	        return new ResponseEntity<>(new ApiResponse("Student has been updated"), HttpStatus.OK);
+	    } catch (StudentNotFoundException e) {
+	        return new ResponseEntity<>(new ApiResponse(e.getMessage()), HttpStatus.NOT_FOUND);
+	    } catch (Exception e) {
+	        e.printStackTrace(); // Log the error
+	        return new ResponseEntity<>(new ApiResponse("Failed to update student"), HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
 	}
+
+
+
 
 	@DeleteMapping("/{student_Id}")
 	public ResponseEntity<ApiResponse> deleteStudentDetails(@PathVariable Long student_Id) {

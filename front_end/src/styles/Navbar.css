@@ -1,16 +1,15 @@
 .navbar {
   display: flex;
   flex-direction: column;
-  align-items: center;
   padding: 1rem;
-  background-color: violet !important; /* Indigo */
+  background-color: #333; /* Dark background color */
   color: white;
 }
 
 .navbar .navbar-top {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   width: 100%;
   max-width: 1200px; /* Optional, for centering content */
   margin-bottom: 1rem;
@@ -18,64 +17,86 @@
 
 .navbar .brand {
   font-size: 1.5rem;
-  color: #1E90FF; /* DodgerBlue */
+  color: #f0f0f0; /* Light color for logo */
   text-decoration: none;
+  margin-right: 1rem; /* Space to the right of the logo */
 }
 
 .navbar .search-bar {
   display: flex;
-  align-items: center; /* Ensure items are aligned on the same axis */
+  align-items: center;
   flex: 1;
-  margin: 0 1rem;
+  max-width: 500px; /* Adjust the width of the search bar */
+  margin-right: 1rem; /* Space between the search bar and other buttons */
 }
 
 .navbar .search-bar input {
   flex: 1;
-  padding: 0.5rem;
+  padding: 0.4rem;
   border-radius: 4px 0 0 4px;
-  border: 1px solid #ccc;
+  border: 1px solid #ddd;
   border-right: none;
-  box-sizing: border-box; /* Ensure padding is included in width */
+  box-sizing: border-box;
+  margin-right: -1px; /* Remove the gap between input and button */
+  height: 40px; /* Set a fixed height for the input field */
 }
 
 .navbar .search-bar button {
-  padding: 0.5rem;
-  background-color: #1E90FF;
+  padding: 0.4rem 0.6rem; /* Reduced padding for the button */
+  background-color: #4caf50; /* Green button color */
   color: white;
   border: none;
   border-radius: 0 4px 4px 0;
   cursor: pointer;
   font-size: 0.8rem;
   width: 80px; /* Fixed width for the button */
-  height: 100%; /* Make button height match the input field */
-}
-
-.navbar .cart {
-  position: relative;
+  height: 40px; /* Match the input field height */
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
-.navbar .cart .btn-cart {
-  background-color: #1E90FF;
+.navbar .btn-cart {
+  position: relative;
+  background-color: #2196f3; /* Blue button color */
   border: none;
   color: white;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 1rem; /* Adjusted padding */
   border-radius: 4px;
   cursor: pointer;
   display: flex;
   align-items: center;
+  margin-left: 0.5rem; /* Space between buttons */
 }
 
-.navbar .cart .badge {
+.navbar .btn-cart .badge {
   position: absolute;
   top: -0.5rem;
   right: -0.5rem;
-  background-color: #FF4500; /* OrangeRed */
+  background-color: #ff5722; /* Orange for badge */
   color: white;
   border-radius: 50%;
   padding: 0.2rem 0.5rem;
   font-size: 0.8rem;
+}
+
+.navbar .btn-sell-item,
+.navbar .btn-user-profile,
+.navbar .btn-logout {
+  background-color: #2196f3; /* Blue button color */
+  border: none;
+  color: white;
+  padding: 0.5rem 1rem; /* Adjusted padding */
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 0.5rem; /* Space between buttons */
+}
+
+.navbar .btn-logout {
+  background-color: #f44336; /* Red button color for Logout */
+  padding: 0.3rem 0.6rem; /* Adjust padding for smaller button */
+  width: auto; /* Let the button size itself based on content */
+  white-space: nowrap; /* Prevent the text from wrapping */
 }
 
 .navbar .filter-menu {
@@ -86,21 +107,22 @@
   gap: 0.5rem; /* Space between buttons */
   width: 100%;
   max-width: 1200px; /* Optional, for centering content */
+  margin-top: 1rem; /* Space above the filter menu */
 }
 
 .navbar .filter-menu button {
-  background-color: #1E90FF;
+  background-color: #2196f3; /* Blue button color */
   border: none;
   color: white;
-  padding: 0.5rem 1rem; /* Adjust padding */
+  padding: 0.5rem 1rem; /* Adjusted padding */
   border-radius: 4px;
   cursor: pointer;
-  font-size: 0.9rem; /* Adjust font size */
-  max-width: 150px; /* Control maximum width of buttons */
+  font-size: 0.9rem;
+  max-width: 150px;
 }
 
 .navbar .filter-menu button:hover {
-  background-color: #1873CC;
+  background-color: #1976d2; /* Slightly darker blue on hover */
 }
 
 @media (max-width: 768px) {
@@ -112,10 +134,25 @@
 
   .navbar .search-bar {
     margin: 1rem 0;
+    max-width: 100%;
+  }
+
+  .navbar .search-bar input,
+  .navbar .search-bar button {
+    width: 100%;
+    height: auto; /* Adjust height on small screens */
+  }
+
+  .navbar .btn-sell-item,
+  .navbar .btn-user-profile,
+  .navbar .btn-logout {
+    margin-left: 0;
+    margin-top: 0.5rem; /* Space above each button on small screens */
   }
 
   .navbar .filter-menu {
-    flex-direction: column; /* Stack buttons vertically on small screens */
+    flex-direction: column;
     align-items: center;
+    margin-top: 1rem;
   }
 }

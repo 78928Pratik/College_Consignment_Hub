@@ -66,7 +66,7 @@ public class Item
 	private Student student;
 	
 	@ManyToOne(fetch = FetchType.LAZY,optional = false)
-	@JoinColumn(name="cart_id",nullable = false)
+	@JoinColumn(name="cart_id")
 	private Cart cart;
 	
 

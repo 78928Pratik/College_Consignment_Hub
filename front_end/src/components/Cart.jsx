@@ -2,9 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/Cart.css';
 
-const Cart = ({ cart, setCart }) => {
+const Cart = ({ cart, removeFromCart }) => {
   const handleRemove = (id) => {
-    setCart(cart.filter(product => product.id !== id));
+    removeFromCart(id);
   };
 
   return (
@@ -16,13 +16,13 @@ const Cart = ({ cart, setCart }) => {
         </div>
       ) : (
         cart.map((product) => (
-          <div className="cart-item" key={product.id}>
-            <img src={product.imgSrc} alt={product.title} />
+          <div className="cart-item" key={product.item_id}>
+            <img src={product.image} alt={product.title} />
             <div className="cart-details">
               <h5>{product.title}</h5>
               <p>{product.description}</p>
               <div className="button-group">
-                <button onClick={() => handleRemove(product.id)} className="btn btn-remove">Remove</button>
+                <button onClick={() => handleRemove(product.item_id)} className="btn btn-remove">Remove</button>
                 <button className="btn btn-buy">Contact Now</button>
               </div>
             </div>
@@ -32,7 +32,7 @@ const Cart = ({ cart, setCart }) => {
       {cart.length !== 0 && (
         <div className="checkout">
           <button className="btn btn-checkout">Checkout</button>
-          <button onClick={() => setCart([])} className="btn btn-clear">Clear Cart</button>
+          <button onClick={() => removeFromCart([])} className="btn btn-clear">Clear Cart</button>
         </div>
       )}
     </div>
