@@ -5,6 +5,8 @@ import Product from './Product';
 import '../styles/SearchItem.css';
 
 const SearchItem = ({ cart, setCart }) => { // ithe context api use karel
+
+  
   const { term } = useParams();
   const [filterData, setFilterData] = useState([]);
 
