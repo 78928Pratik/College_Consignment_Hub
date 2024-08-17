@@ -1,6 +1,7 @@
 import React, { useState,useEffect, useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
+import Inventory from './components/Inventory,';
 import Cart from './components/Cart';
 import Product from './components/Product';
 import ProductDetail from './components/ProductDetail';
@@ -12,6 +13,8 @@ import AppContext from './context/AppContext'; // Make sure to import AppContext
 import AppProvider from './context/AppState'; // Make sure to import AppContext
 import UserProfile from './components/UserProfile';
 import { ToastContainer } from 'react-toastify';
+import EditProduct from './components/EditItem';
+//import DonateItem from './components/DonateItemForm';
 
 
 const App = () => {
@@ -37,7 +40,10 @@ const App = () => {
         <Route path="/search/:term" element={<SearchItem cart={cart} setCart={setCart} />} />
         <Route path="/cart" element={<Cart cart={cart} setCart={setCart} />} />
         <Route path="/sellitem" element={<AddItem />} />
+        <Route path="/edit-item/:id" element={<EditProduct />} />
         <Route path="/" element={<Login />} />
+        <Route path="/inventory" element={<Inventory />} />
+    {/* <Route path="/donate" element={DonateItem}/> */}
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<UserProfile />} /> 
       </Routes>

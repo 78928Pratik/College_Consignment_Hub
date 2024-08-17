@@ -1,5 +1,3 @@
-/* ProductDetail.css */
-
 .product-detail {
   display: flex;
   padding: 2rem;
@@ -34,14 +32,24 @@
   color: #666;
 }
 
+.button-group {
+  display: flex;
+  justify-content: center; /* Center the buttons */
+  gap: 1rem; /* Space between the buttons */
+  margin-top: 1rem; /* Space above the buttons */
+}
+
 .product-info .btn-add,
 .product-info .btn-back {
-  padding: 0.75rem 1.5rem;
+  padding: 0.5rem 1rem;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 1rem;
   transition: background-color 0.3s;
+  text-align: center;
+  flex: 1; /* Make buttons equally sized */
+  max-width: 200px; /* Optional: limit the maximum width */
 }
 
 .product-info .btn-add {
@@ -54,12 +62,15 @@
 }
 
 .product-info .btn-back {
-  background-color: #e0aaff; /* Violet color for the back button */
+  background-color: #28a745; /* Green color for the back button */
   color: #fff;
-  text-align: center;
-  margin-top: 1rem; /* Space above the back button */
 }
 
 .product-info .btn-back:hover {
-  background-color: #d28be0; /* Darker violet on hover */
+  background-color: #218838; /* Darker green on hover */
+}
+
+.product-info .btn-back,
+.product-info .btn-add {
+  text-decoration: none; /* Remove underline from the link */
 }

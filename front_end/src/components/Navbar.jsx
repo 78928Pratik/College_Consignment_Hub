@@ -1,18 +1,17 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import AppContext from "../context/AppContext"; // Import AppContext
+import AppContext from "../context/AppContext";
 import axios from "axios";
-import { BsFillCartCheckFill } from "react-icons/bs";
+import { BsCardList, BsFillCartCheckFill, BsFillSignTurnRightFill, BsHeartFill } from "react-icons/bs";
 import "../styles/Navbar.css";
 
 const Navbar = ({ setData, cart }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
-  const { products } = useContext(AppContext); // Get products from context
+  const { products } = useContext(AppContext); 
   const [categories, setCategories] = useState([]);
 
-  // Fetch categories on component mount
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -22,7 +21,6 @@ const Navbar = ({ setData, cart }) => {
         console.error("Error fetching categories:", error);
       }
     };
-
     fetchCategories();
   }, []);
 
@@ -40,16 +38,26 @@ const Navbar = ({ setData, cart }) => {
   };
 
   const handleLogout = () => {
-    // Implement logout logic here, e.g., clearing authentication tokens or redirecting
-    localStorage.removeItem("student");
-    navigate("/"); // Redirect to login page after logout
+    // Display a confirmation dialog
+    const isConfirmed = window.confirm("Are you sure you want to log out?");
+    
+    // If the user confirms, proceed with the logout
+    if (isConfirmed) {
+      localStorage.removeItem("student");
+      navigate("/"); 
+    }
   };
+  
 
   return (
     <nav className="navbar">
       <div className="navbar-top">
         <Link to="/home" className="brand">
-          CCHub Logo
+          <img
+            src="https://media-exp1.licdn.com/dms/image/C4E0BAQH0pV14FxzqwQ/company-logo_200_200/0/1624685506949?e=2159024400&v=beta&t=TqDgxbAurWqG62Jn5PhQil_A3YxO84IwrqlvNqB_vAc"
+            alt="CCHub Logo"
+            className="brand-logo"
+          />
         </Link>
 
         <form className="search-bar" onSubmit={handleSubmit}>
@@ -63,16 +71,20 @@ const Navbar = ({ setData, cart }) => {
 
         <Link to="/cart" className="cart">
           <button className="btn-cart">
-            <BsFillCartCheckFill />
+         <BsHeartFill/>
             <span className="badge">{cart.length}</span>
           </button>
         </Link>
-        <Link to="/sellitem">
-          <button className="btn-sell-item">Sell Item</button>
+        <Link to="/inventory">
+          <button className="btn-user-profile">   <BsFillCartCheckFill /></button>
         </Link>
+        {/* <Link to="/sellitem">
+          <button className="btn-sell-item">Sell Item</button>
+        </Link> */}
         <Link to="/profile">
           <button className="btn-user-profile">User Profile</button>
         </Link>
+       
         <button className="btn-logout" onClick={handleLogout}>
           Logout
         </button>

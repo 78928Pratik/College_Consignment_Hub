@@ -31,7 +31,7 @@ const Product = ({ items, cart, setCart }) => {
               {/* <p>Description: {product.description}</p> */}
               <div className="button-group">
                 <Link to={`/product/${product.item_id}`} className="btn btn-view">View</Link>
-                <button onClick={() => addToCart(product)} className="btn btn-add">Add to Cart</button>
+                <button onClick={() => addToCart(product)} className="btn btn-add">Add to Wishlist</button>
               </div>
             </div>
           </div>

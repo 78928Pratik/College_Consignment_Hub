@@ -1,15 +1,14 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useParams, Link } from "react-router-dom";
-import AppContext from "../context/AppContext"; // Import AppContext
+import AppContext from "../context/AppContext";
 import "../styles/ProductDetail.css";
 
 const ProductDetail = ({ cart, setCart }) => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
-  const { products } = useContext(AppContext); // Get products from context
+  const { products } = useContext(AppContext);
 
   useEffect(() => {
-    // Find the product from the context's product list
     const productData = products.find(
       (item) => item.item_id === parseInt(id, 10)
     );
@@ -18,7 +17,7 @@ const ProductDetail = ({ cart, setCart }) => {
     } else {
       console.error("Product not found");
     }
-  }, [id, products]); // Add products to dependency array to react to updates
+  }, [id, products]);
 
   const addToCart = () => {
     if (product) {
@@ -42,12 +41,14 @@ const ProductDetail = ({ cart, setCart }) => {
         <p>Status: {product.status}</p>
         <p>Description: {product.description}</p>
         <p>Price: ₹{product.price}</p>
-        <button className="btn-add" onClick={addToCart}>
-          Add to Wishlist
-        </button>
-        <Link to="/home" className="btn-back">
-          Continue Shopping...
-        </Link>
+        <div className="button-group">
+          <button className="btn-add" onClick={addToCart}>
+            Add to Wishlist
+          </button>
+          <Link to="/home" className="btn-back">
+            Continue Shopping...
+          </Link>
+        </div>
       </div>
     </div>
   );
