@@ -19,7 +19,7 @@ const AppProvider = (props) => {
   }, []);
 
   useEffect(() => {
-    if (!student) return; // Exit early if student is not available
+    if (!student) return; 
 
     const fetchAllProducts = async () => {
       try {
@@ -91,7 +91,7 @@ const AppProvider = (props) => {
   };
 
   const removeFromCart = async (id) => {
-    if (!student) return; // Exit early if student is not available
+    if (!student) return; 
 
     try {
       await axios.delete(`/cart/${id}`, {
