@@ -12,27 +12,27 @@ import AddItem from "./components/AddItem";
 import AppContext from './context/AppContext'; // Make sure to import AppContext
 import AppProvider from './context/AppState'; // Make sure to import AppContext
 import UserProfile from './components/UserProfile';
-import { ToastContainer } from 'react-toastify';
+
 import EditProduct from './components/EditItem';
 //import DonateItem from './components/DonateItemForm';
 
 
 const App = () => {
-  const { products } = useContext(AppContext); // Correctly use useContext
+  const { products } = useContext(AppContext); 
 
-  useEffect(() => {
-    setData(products);
-  }, [products]);
   const [cart, setCart] = useState([]);
   const [data, setData] = useState(products); // Use products from context
   console.log(products);
   const location = useLocation();
   const showNavbar = location.pathname !== '/' && location.pathname !== '/register' && location.pathname !== '/profile' ;
- 
-
+  
+  useEffect(() => {
+    setData(products);
+  }, [products]);
+  
   return (
     <>
-      <ToastContainer />
+     
       {showNavbar  && <Navbar setData={setData} cart={cart} />}
       <Routes>
         <Route path="/home" element={<Product items={data} cart={cart} setCart={setCart} />} />
